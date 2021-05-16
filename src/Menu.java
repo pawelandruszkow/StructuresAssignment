@@ -1,11 +1,28 @@
-import java.util.*;
+import java.util.InputMismatchException;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 
 
 public class Menu {
     static Scanner input = new Scanner(System.in);
 
     public static void main(String[] args) {
-        getValidNumber("Choose number for command> ", List.of(1, 2, 3, 9, 10));
+        while (true) {
+            System.out.println("""
+                    Please enter one of the following options
+                    Press 1 to add new Product
+                    Press 2 to find existing product
+                    Press 3 to remove a product
+                    Press 4 to display all product details
+                    """);
+            int selection = getSelection();
+
+            if (selection == 1)
+                ProductList.addProduct();
+            if (selection == 4)
+                ProductList.displayProducts();
+        }
     }
 
     Map<Integer, String> choices = Map.of(
@@ -17,24 +34,38 @@ public class Menu {
 
     static int getSelection() {
 
-        Integer validNumber = getValidNumber("Choose number for command> ", List.of(1, 2, 3, 9, 10));
-return 0;
+        Integer validNumber = getValidNumber(">> ", List.of(1, 2, 3, 4));
+        return validNumber;
     }
 
-    static  int getValidNumber(String promptMessage, List<Integer> validNumbers) {
+    public static int getValidNumber(String promptMessage, List<Integer> validNumbers) {
         Integer inputtedNumber = null;
         while (inputtedNumber == null) {
             try {
                 System.out.print(promptMessage + " ");
                 inputtedNumber = input.nextInt();
-                if(! validNumbers.contains(inputtedNumber)){
+                if (validNumbers != null && !validNumbers.contains(inputtedNumber)) {
                     System.err.println("Please enter a valid number");
                     inputtedNumber = null;
                 }
             } catch (InputMismatchException e) {
                 System.err.println("Input not a number! Please try again.");
+                inputtedNumber = null;
             }
         }
         return inputtedNumber;
+    }
+
+    public static String getString(String promptMessage) {
+        String inputtedString = null;
+        while (inputtedString == null) {
+            System.out.print(promptMessage + " ");
+            inputtedString = new Scanner(System.in).nextLine();
+            if (inputtedString.isBlank()) {
+                System.err.println("Please enter something");
+                inputtedString = null;
+            }
+        }
+        return inputtedString;
     }
 }

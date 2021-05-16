@@ -20,6 +20,8 @@ public class Menu {
 
             if (selection == 1)
                 ProductList.addProduct();
+            if (selection == 3)
+                ProductList.removeProducts();
             if (selection == 4)
                 ProductList.displayProducts();
         }
